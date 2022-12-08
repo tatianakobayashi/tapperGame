@@ -6,7 +6,9 @@ public class Player : MonoBehaviour
 {
     public int sideVelocity;
 
+    [SerializeField] private GameObject drink;
     [SerializeField] private List<Transform> locations;
+    [SerializeField] private List<Transform> drinkLocations;
     private int currentLocation;
     private float initialX;
     private bool isMovingLeft;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
         isMovingLeft = transform.position.x < initialX;
         Movement();
         SideMovement();
+        MakeDrink();
     }
 
     void Movement()
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour
 
     void SideMovement()
     {
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Translate(-sideVelocity * Time.deltaTime, 0, 0);
         }
@@ -56,5 +59,11 @@ public class Player : MonoBehaviour
         {
             transform.Translate(sideVelocity * Time.deltaTime, 0, 0);
         }
+    }
+
+    void MakeDrink()
+    {
+        if (!isMovingLeft && Input.GetKeyDown(KeyCode.Space))
+            Instantiate(drink, drinkLocations[currentLocation].position, Quaternion.identity);
     }
 }
