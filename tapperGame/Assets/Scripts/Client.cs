@@ -5,17 +5,26 @@ using UnityEngine;
 public class Client : MonoBehaviour
 {
     private float velocity;
+    private GameController gameController;
 
     private void OnEnable()
     {
-        velocity = Random.Range(2, 5);  
+        velocity = Random.Range(2, 5);
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
+        // Com delay???
+        if (gameController.gameOver)
+        {
+            Debug.Log("Game OVER");
+            Destroy(gameObject, 5f);
+        }
+        */
         Movement();
-        //Destroy(gameObject, 5f);
     }
 
     void Movement()
@@ -29,6 +38,11 @@ public class Client : MonoBehaviour
         {
             transform.parent = other.gameObject.transform;
             velocity = 0;
+            other.gameObject.layer = gameObject.layer;
+        }
+        else if (other.collider.CompareTag("Finish"))
+        {
+            Destroy(gameObject);
         }
     }
 }

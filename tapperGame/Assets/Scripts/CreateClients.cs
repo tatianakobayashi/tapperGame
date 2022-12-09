@@ -8,30 +8,35 @@ public class CreateClients : MonoBehaviour
     public GameObject[] prefabClients;
     public bool stop;
 
+    private GameController gameController;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnEnable()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         StartCoroutine(Spawn());
     }
 
     IEnumerator Spawn()
     {
-        while(stop)
+        while (stop)
         {
             time = Random.Range(1, 10);
             yield return new WaitForSeconds(time);
-            Instantiate(prefabClients[Random.RandomRange(0, prefabClients.Length)], transform.position, Quaternion.identity);
+            if (!gameController.gameOver)
+            {
+                Instantiate(prefabClients[Random.Range(0, prefabClients.Length)], transform.position, Quaternion.identity);
+            }
         }
     }
 }

@@ -13,18 +13,28 @@ public class Player : MonoBehaviour
     private float initialX;
     private bool isMovingLeft;
 
+    private GameController gameController;
     void Start()
     {
         transform.position = locations[0].position;
         initialX = transform.position.x;
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     void Update()
     {
         isMovingLeft = transform.position.x < initialX;
-        Movement();
-        SideMovement();
-        MakeDrink();
+        if (!gameController.gameOver)
+        {
+            Movement();
+            SideMovement();
+            MakeDrink();
+        }
+        else
+        {
+            transform.position = locations[0].position;
+            currentLocation = 0;
+        }
     }
 
     void Movement()
@@ -51,7 +61,7 @@ public class Player : MonoBehaviour
 
     void SideMovement()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && transform.position.x >= -9)
         {
             transform.Translate(-sideVelocity * Time.deltaTime, 0, 0);
         }
