@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -22,10 +23,7 @@ public class GameController : MonoBehaviour
     {
         if (gameOver && Input.GetKeyUp(KeyCode.Space))
         {
-            served = 0;
-            clientsNotServed = 0;
-            drinksNotServed = 0;
-            gameOver = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         if (clientsNotServed + drinksNotServed > served && !gameOver) gameOver = true;
     }
